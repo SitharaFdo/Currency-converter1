@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Currency Converter</title>
+	
+	<style>
+		#box
+		{
+			width: 80%;
+			height: 90%;
+			margin: 50px 100px;
+			background-color: lightgray;
+			border : 2px solid lightgray;
+			padding: 20px;
+		}
+		
+		h2 
+		{
+			background-color: darkblue;
+			color: white;
+			text-align: center;
+			letter-spacing: 7px;
+			font: 30px Verdana;
+			padding: 6px;
+		}
+		
+		h3
+		{
+			text-align: center;
+			font: 20px Verdana;
+			padding: 6px;
+		}
+		
+		td 
+		{
+			height: 50%;
+			width: 50%;
+			
+		}
+		
+		table 
+		{
+			width: 50%; 
+			margin: 1px auto; 
+		}
+	</style>
+	
+	<script>
+		function convertCurrency()
+		{
+			var from = document.getElementById("from").value;
+			var to = document.getElementById("to").value;
+			var xmlhttp = new XMLHttpRequest();
+			var url = "https://api.exchangeratesapi.io/latest?" + from + "," + to;
+			xmlhttp.open("GET", url , true);
+			xmlhttp.send();
+			xmlhttp.onreadystatechange = function(){
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+				{
+					var result = xmlhttp.responseText;
+					var jsResult = JSON.parse(result);
+					var oneUnit = jsResult.rates[to]/jsResult.rates[from];
+					var amt = document.getElementById("fromAmount").value;
+					document.getElementById("toAmount").value = (oneUnit*amt).toFixed(2);
+				}	
+			
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<h2>ZRILIAN SOLUTIONS</h2>
+<div id="box" aligned="center">
+	<h3>Currency Converter</h3>
+	
+	<table>
+		
+		<tr>
+			<td>
+				<label for="amount"><b>Amount</b></label>
+			</td>
+		</tr>
+		<tr>
+			<td><input id="fromAmount" type="number" value="1" min="1" /></td>
+		</tr>
+		<tr>
+			<td>
+				<label for="lblfrom"><b>From</b></label>
+			</td>
+			<td>
+				<label for="lblto"><b>To</b></label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<select id="from">
+					<option value="AUD">Australian Dollar (AUD)</option>
+					<option value="BGN">Bulgarian Lev (BGN)</option>
+					<option value="CAD">Canadian Dollar	(CAD)</option>
+					<option value="CHF">Swiss Franc	(CHF)</option>
+					<option value="DKK">Danish Krone (DKK)</option>
+					<option value="EUR">Euro (EUR)</option>
+					<option value="GBP">Pound Sterling	(GBP)</option>
+					<option value="ILS">Israeli New Shekel (ILS)</option>
+					<option value="INR">Indian Rupee (INR)</option>
+					<option value="JPY">Japanese Yen (JPY)</option>
+					<option value="LKR">Sri Lanka Rupee	(LKR)</option>
+					<option value="PHP">Philippine Peso	(PHP)</option>
+					<option value="RUB">Russian Ruble (RUB)</option>
+					<option value="USD" selected>US Dollar (USD)</option>
+				</select>
+			</td>
+				<td>
+				<select id="to">
+					<option value="AUD" selected>Australian Dollar (AUD)</option>
+					<option value="BGN">Bulgarian Lev (BGN)</option>
+					<option value="CAD">Canadian Dollar	(CAD)</option>
+					<option value="CHF">Swiss Franc	(CHF)</option>
+					<option value="DKK">Danish Krone (DKK)</option>
+					<option value="EUR">Euro (EUR)</option>
+					<option value="GBP">Pound Sterling	(GBP)</option>
+					<option value="ILS">Israeli New Shekel (ILS)</option>
+					<option value="INR">Indian Rupee (INR)</option>
+					<option value="JPY">Japanese Yen (JPY)</option>
+					<option value="LKR">Sri Lanka Rupee (LKR)</option>
+					<option value="PHP">Philippine Peso	(PHP)</option>
+					<option value="RUB">Russian Ruble (RUB)</option>
+					<option value="USD">US Dollar (USD)</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="lblresult"><b>Result</b></label></td>
+		</tr>
+		<tr>
+			<td><input id="toAmount" type="number" disabled /></td>
+		
+		</tr>
+		<tr>
+		</tr>
+		<tr>
+			<td><button onclick="convertCurrency();"><b>Convert</b></button></td>
+			<td><button onclick="reset();"><b>Reset</b></button></td>
+		</tr>
+		
+	</table>
+	
+</div> 
+
+</body>
+</html>
